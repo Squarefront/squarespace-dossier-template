@@ -1,0 +1,25 @@
+{.section categories}<!--
+
+Categories
+
+--><span class="Blog-meta-item Blog-meta-item--categories">{.repeated section @}<a href="{collection.fullUrl}?category={@|url-encode}" class="Blog-meta-item-category">{@}</a>{.alternates with}, {.end}</span>{.end}<!--
+
+Author
+
+--><a href="{collection.fullUrl}?author={author.id}" class="Blog-meta-item Blog-meta-item--author">{author.displayName}</a><!--
+
+Date
+
+--><time class="Blog-meta-item Blog-meta-item--date" datetime="{addedOn|date %F}" itemprop="datePublished">{addedOn|date %B} <span>{addedOn|date %d}, </span>{addedOn|date %Y}</time>{.section location}{.section addressTitle}<!--
+
+Location
+
+--><span class="Blog-meta-item Blog-meta-item--location"><a href="http://maps.google.com?q={addressLine1} {addressLine2} {addressCountry}" target="_blank">{@}</a></span>{.end}{.end}{.section tags}<!--
+
+Tags
+
+--><span class="Blog-meta-item Blog-meta-item--tags">{.repeated section @}<a href="{collection.fullUrl}?tag={@|url-encode}" class="Blog-meta-item-tag">{@}</a>{.alternates with}, {.end}</span>{.end}{.comments?}<!--
+
+Comments
+
+--><span class="Blog-meta-item Blog-meta-item--comments">{.if websiteSettings.disqusShortname}{@|comment-link}{.or}{.section publicCommentCount}<a href="{fullUrl}#comments-{id}">{@} Comment{@|pluralize}</a>{.or}<a href="{fullUrl}#comments-{id}">Comment</a>{.end}{.end}</span>{.end}

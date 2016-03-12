@@ -1,0 +1,21 @@
+{.section categories}<!--
+
+Categories
+
+--><span class="BlogItem-pagination-meta-item BlogItem-pagination-meta-item--categories">{.repeated section @}{@}{.alternates with}, {.end}</span>{.end}<!--
+
+Author
+
+--><span class="BlogItem-pagination-meta-item BlogItem-pagination-meta-item--author">{author.displayName}</span><!--
+
+Date
+
+--><time class="BlogItem-pagination-meta-item BlogItem-pagination-meta-item--date" datetime="{addedOn|date %F}">{addedOn|date %B} <span>{addedOn|date %d}, </span>{addedOn|date %Y}</time>{.section location}{.section addressTitle}<!--
+
+Location
+
+--><span class="BlogItem-pagination-meta-item BlogItem-pagination-meta-item--location">{@}</span>{.end}{.end}{.section tags}<!-- 
+
+Tags 
+
+--><span class="BlogItem-pagination-meta-item BlogItem-pagination-meta-item--tags">{.repeated section @}{@}{.alternates with}, {.end}</span>{.end}

@@ -1,0 +1,29 @@
+{.repeated section items}
+
+  <article id="article-{id}" class="BlogList-item BlogList-item--list{.if categories.0} has-categories{.end}{.if tags.0} has-tags{.end}{.if location.addressTitle || location.addressLine1 || location.addressLine2 || location.addressCountry} has-location{.end}{.comments?} has-comments{.end}" data-item-id="{id}" data-offset="{addedOn}"{.if pagination.nextPage}{.or} data-last-page{.end}>
+
+    <div class="Blog-header Blog-header--list{.main-image?} Blog-header--has-image{.end}">
+
+      <div class="Blog-header-content">
+
+        <a href="{.passthrough?}{sourceUrl}{.or}{fullUrl}{.end}" class="Blog-header-content-link" {.passthrough?}target="_blank"{.end}></a>
+
+        <div class="Blog-meta Blog-meta--top">{@|apply blog-meta.block}</div>
+
+        <h2 class="Blog-title" data-content-field="title">{title}</h2>
+
+        {.excerpt?}
+          <div class="Blog-excerpt" data-content-field="excerpt">{excerpt}</div>
+        {.end}
+
+        <div class="Blog-meta Blog-meta--bottom">{@|apply blog-meta.block}</div>
+
+      </div>
+
+      {.main-image?}<figure class="Blog-header-image content-fill"><img {@|image-meta} data-load="false" /></figure>{.end}
+
+    </div>
+
+  </article>
+
+{.end}

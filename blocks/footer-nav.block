@@ -1,0 +1,30 @@
+{.section items}
+  <nav class="Footer-nav" data-content-field="navigation">
+    {.repeated section @}
+      {.collection?}
+        {.folder?}
+
+          {.repeated section items}
+
+            {.collection?}
+              <a href="{collection.fullUrl}" class="Footer-nav-item">{collection.navigationTitle}</a>
+            {.or}
+              {.section externalLink}
+                <a href="{url}"{.section newWindow} target="_blank"{.end} class="Footer-nav-item">{title}</a>
+              {.end}
+            {.end}
+
+          {.end}
+
+        {.or}
+          {.section collection}
+            <a href="{fullUrl}" class="Footer-nav-item">{navigationTitle}</a>
+          {.end}
+        {.end}
+      {.end}
+      {.section externalLink}
+        <a href="{url}"{.section newWindow} target="_blank"{.end} class="Footer-nav-item">{title}</a>
+      {.end}
+    {.end}
+  </nav>
+{.end}

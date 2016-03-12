@@ -1,0 +1,15 @@
+{
+  "extends": "eslint-config-squarespace/vanilla",
+  "env": {
+    "browser": true,
+    "mocha": true,
+    "node": true
+  },
+  "globals": {
+    "Y": true,
+    "$": true
+  },
+  "rules": {
+    "no-new": 1
+  }
+}

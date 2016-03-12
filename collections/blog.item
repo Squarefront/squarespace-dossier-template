@@ -1,0 +1,140 @@
+
+{.section item}
+
+  <article id="article-{id}" class="BlogItem-article {@|item-classes}{.passthrough?} BlogItem-article--passthrough{.end}{.if starred} BlogItem-article--featured{.or} BlogItem-article--not-featured{.end}{.main-image?} BlogItem-article--has-main-image{.or} BlogItem-article--no-main-image{.end}{.if categories.0} has-categories{.end}{.if tags.0} has-tags{.end}{.if location.addressTitle || location.addressLine1 || location.addressLine2 || location.addressCountry} has-location{.end}{.comments?} has-comments{.end}" data-item-id="{id}">
+
+    <header class="Blog-header{.main-image?} Blog-header--has-image{.end} BlogItem-header">
+
+      <div class="Blog-header-content">
+
+        {.passthrough?}
+          <a href="{sourceUrl}" class="Blog-header-content-link" target="_blank"></a>
+        {.end}
+          
+        <div class="Blog-meta Blog-meta--top">{@|apply blog-meta.block}</div>
+
+        <h1 class="Blog-title Blog-title--item" data-content-field="title" itemprop="headline">{title}</h1>
+          
+        <div class="Blog-meta Blog-meta--bottom">{@|apply blog-meta.block}</div>
+
+      </div>
+
+      {.main-image?}<figure class="Blog-header-image content-fill" sqs-controller="Template.Controllers.SimpleImageLoad"><img {@|image-meta} data-load="false" /></figure>{.end}
+
+    </header>
+
+    <section class="BlogItem-main">
+
+      {body}
+
+      {.section author}
+        <div class="BlogItem-profile">
+
+          <div class="BlogItem-profile-inner">
+
+            {.if avatarId}
+              <div class="BlogItem-profile-avatar content-fill" sqs-controller="Template.Controllers.SimpleImageLoad">
+                <img class="BlogItem-profile-avatar-image" data-src="{avatarAssetUrl}" data-image="{avatarAssetUrl}" data-image-focal-point="0.5,0.5" data-load="false">
+              </div>
+            {.end}
+
+            {.section displayName}<div class="BlogItem-profile-name" itemprop="author">{@}</div>{.end}
+
+            {.section bio}<div class="BlogItem-profile-bio">{@}</div>{.end}
+
+          </div>
+
+        </div>
+      {.end}
+
+      {@|apply sqs-share-buttons}
+
+      {.if postItemInjectCode}{postItemInjectCode}{.end}
+
+      <div id="comments-{id}" class="BlogItem-comments">
+
+        {@|comments}
+
+      </div>
+
+    </section>
+
+  </article>
+
+{.end}
+
+
+{.if collection.features.relatedItems.isEnabled}
+  <squarespace:related collectionId="{collection.id}" limit="5" itemId="{item.id}">
+    {.section items}
+      <section class="BlogItem-related">
+
+        <h2 class="BlogItem-related-label"></h2>
+
+        <div class="BlogItem-related-content clear" sqs-controller="Template.Controllers.SimpleImageLoad">
+          {.repeated section @}
+
+            
+            <article id="article_{id}" class="BlogList-item{.if categories.0} has-categories{.end}{.if tags.0} has-tags{.end}{.if location.addressTitle || location.addressLine1 || location.addressLine2 || location.addressCountry} has-location{.end}{.comments?} has-comments{.end} loaded" data-item-id="{id}">
+
+              <div class="Blog-header Blog-header--list{.main-image?} Blog-header--has-image{.end}">
+
+                <div class="Blog-header-content">
+
+                  <a href="{.passthrough?}{sourceUrl}{.or}{fullUrl}{.end}" class="Blog-header-content-link" {.passthrough?}target="_blank"{.end}></a>
+
+                  <div class="Blog-meta Blog-meta--top">{@|apply blog-meta.block}</div>
+
+                  <h2 class="Blog-title" data-content-field="title">{title}</h2>
+
+                  {.excerpt?}
+                    <div class="Blog-excerpt" data-content-field="excerpt">{excerpt}</div>
+                  {.end}
+
+                  <div class="Blog-meta Blog-meta--bottom">{@|apply blog-meta.block}</div>
+
+                </div>
+
+                {.main-image?}<figure class="Blog-header-image content-fill"><img {@|image-meta} data-load="false" /></figure>{.end}
+
+              </div>
+
+            </article>
+
+          {.end}
+        </div>
+      </section>
+    {.end}
+  </squarespace:related>
+{.end}
+    
+
+{.section pagination}
+  <nav class="BlogItem-pagination clear" sqs-controller="Template.Controllers.BlogItemPaginationArrows">
+
+    {.section prevItem}
+      <a href="{.if passthrough}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogItem-pagination-link BlogItem-pagination-link--prev">
+        <svg class="Icon Icon--caretSmall--left BlogItem-pagination-icon" viewBox="0 0 9 16">
+          <use xlink:href="/assets/ui-icons.svg#caret-left-small-icon"></use>
+        </svg><!--
+        --><div class="BlogItem-pagination-content">
+          <h4 class="BlogItem-pagination-title">{title}</h4>
+          <div class="BlogItem-pagination-meta">{@|apply blog-meta-pagination.block}</div>
+        </div>
+      </a>
+    {.end}
+
+    {.section nextItem}
+      <a href="{.if passthrough}{sourceUrl}{.or}{fullUrl}{.end}" class="BlogItem-pagination-link BlogItem-pagination-link--next">
+        <div class="BlogItem-pagination-content">
+          <h4 class="BlogItem-pagination-title">{title}</h4>
+          <div class="BlogItem-pagination-meta">{@|apply blog-meta-pagination.block}</div>
+        </div><!--
+        --><svg class="Icon Icon--caretSmall--right BlogItem-pagination-icon" viewBox="0 0 9 16">
+          <use xlink:href="/assets/ui-icons.svg#caret-right-small-icon"></use>
+        </svg>
+      </a>
+    {.end}
+
+  </nav>
+{.end}

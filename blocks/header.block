@@ -1,0 +1,60 @@
+
+<header class="Header" data-nc-base="header" data-nc-group="header" sqs-controller="Template.Controllers.Ancillary" data-nc-collapsible data-nc-min="640">
+  <div data-nc-container="left">
+
+    <nav class="Header-nav Header-nav--primary" data-nc-element="primary-nav" data-content-field="navigation">
+      <squarespace:navigation navigationId="primaryNav" template="header-nav" />
+    </nav>
+
+    {.if website.socialAccounts.0}
+      <div class="Header-social" data-nc-element="social">
+        {.section website}
+          {.repeated section socialAccounts}<a href="{profileUrl}" target="_blank" class="sqs-svg-icon--wrapper {serviceName}" style="">
+            <div>
+              <svg class="sqs-svg-icon--social" viewBox="0 0 64 64">
+                <use class="sqs-use--background" xlink:href="/universal/svg/social-accounts.svg#background"></use>
+                <use class="sqs-use--icon" xlink:href="/universal/svg/social-accounts.svg#{serviceName}-icon"></use>
+                <use class="sqs-use--mask" xlink:href="/universal/svg/social-accounts.svg#{serviceName}-mask"></use>
+              </svg>
+            </div>
+          </a>{.end}
+        {.end}
+      </div>
+    {.end}
+  </div>
+  <div data-nc-container="center">
+    <a href="/" class="Header-branding" data-nc-element="branding" data-content-field="site-title">
+      {.section website}
+        {.section logoImageUrl}
+          <img src="{logoImageUrl}?format=1500w" alt="{siteTitle}" class="Header-branding-logo" />
+        {.or}
+          {siteTitle}
+        {.end}
+      {.end}
+    </a>
+    {.section website}{.section siteTagLine}<div class="Header-tagline" data-nc-element="tagline">{@}</div>{.end}{.end}
+  </div>
+  <div data-nc-container="right">
+
+    <nav class="Header-nav Header-nav--secondary" data-nc-element="secondary-nav" data-content-field="navigation">
+      <squarespace:navigation navigationId="secondaryNav" template="header-nav" />
+    </nav>
+
+    {@|apply cart.block}
+            
+    <div class="Header-search" data-nc-element="search">
+      <form class="Header-search-form" action="/search" method="get">
+        <input class="Header-search-form-input" name="q" type="text" spellcheck="false" value="" autocomplete="off" placeholder="Search" />
+        <button class="Header-search-form-submit" type="submit">
+          <svg class="Icon Icon--search--small" viewBox="0 0 20 20">
+            <use xlink:href="/assets/ui-icons.svg#search-icon--small"></use>
+          </svg>
+          <svg class="Icon Icon--search" viewBox="0 0 20 20">
+            <use xlink:href="/assets/ui-icons.svg#search-icon"></use>
+          </svg>
+        </button>
+      </form>
+    </div>
+
+  </div>
+</header>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html{.if authenticatedAccount} data-authenticated-account{.end} sqs-controller="Template.Controllers.SiteScroll">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="initial-scale=1">
+
+    {squarespace-headers}
+  </head>
+  <body id="{squarespace.page-id}" class="{squarespace.page-classes}{.if website.logoImageUrl} has-logo-image{.or} has-site-title{.end}{.if website.siteTagLine} has-tagline{.end}{.if showCart} has-cart{.end}{.if website.socialAccounts.0} has-social{.end}<squarespace:navigation navigationId="primaryNav">{.if items.0} has-primary-nav{.end}</squarespace:navigation><squarespace:navigation navigationId="secondaryNav">{.if items.0} has-secondary-nav{.end}</squarespace:navigation><squarespace:navigation navigationId="footerNav">{.if items.0} has-footer-nav{.end}</squarespace:navigation>{.if categoryFilter || tagFilter || authorFilter} has-active-filter{.end}" sqs-controller="Template.Controllers.SiteLoader">
+
+    <div class="Loader"></div>
+
+    {@|apply mobile.block}
+
+    {@|apply header.block}
+
+    <main id="main" class="Main{.if collection.typeName} Main--{collection.typeName}{.equal? collection.typeName "page"}{.or}{.if item}-item{.or}-list{.end}{.end}{.end}" role="main" {.equal? collection.typeName "blog"}data-content-field="main-content"{.end}>
+
+      {.equal? collection.typeName "blog"}
+
+        {.if item}
+          
+          {squarespace.main-content}
+
+        {.or}
+
+          <div class="BlogList" sqs-controller="Template.Controllers.BlogList">
+
+            {.if categoryFilter || tagFilter || authorFilter}
+              <div class="BlogList-filter">
+
+                {.if authorFilter}
+
+                  {.section author}
+                    {.if avatarId}
+                      <div class="BlogList-filter-avatar content-fill" sqs-controller="Template.Controllers.SimpleImageLoad">
+                        <img class="BlogList-filter-avatar-image" data-src="{avatarAssetUrl}" data-image="{avatarAssetUrl}" data-image-focal-point="0.5,0.5" data-load="false">
+                      </div>
+                    {.end}
+
+                    {.section displayName}<div class="BlogList-filter-heading BlogList-filter-heading--author">{@}</div>{.end}
+
+                    {.section bio}<div class="BlogList-filter-body">{@}</div>{.end}
+                  {.end}
+
+                {.or}
+
+                  <div class="BlogList-filter-heading{.section categoryFilter} BlogList-filter-heading--category{.end}{.section tagFilter} BlogList-filter-heading--tag{.end}">
+                    {.section categoryFilter}{@|safe}{.end}{.section tagFilter}{@|safe}{.end}
+                  </div>
+
+                {.end}
+                
+              </div>
+            {.end}
+          
+            <div class="BlogList-inner clear">
+
+              {squarespace.main-content}
+
+            </div>
+
+            <a href="#" class="BlogList-load"></a>
+          </div>
+
+        {.end}
+
+      {.or}
+
+        {.if item}{.or}{.equal? collection.typeName "page"}{.or}
+
+          <div class="Main-intro">
+            <squarespace:block-field id="collectionIntro-{collection.id}" class="Main-intro-content" columns="12" label="Intro" />
+          </div>
+
+        {.end}{.end}
+
+        <div class="Main-content" data-content-field="main-content">
+          {squarespace.main-content}
+        </div>
+      {.end}
+    </main>
+
+
+    <footer class="Footer sqs-alternate-block-style-container">
+      <squarespace:navigation navigationId="footerNav" template="footer-nav" />
+      <squarespace:block-field id="footerBlocks" class="Footer-blocks" columns="12" label="Footer Blocks" />
+    </footer>
+
+    <squarespace:script src="polyfills.js" combo="true" />
+    <squarespace:script src="sqs-core.js" combo="true" />
+    <squarespace:script src="sqs-controller.js" combo="true" />
+    <squarespace:script src="site.js" combo="true" />
+
+    <squarespace:script src="plugins/ancillary.js" combo="true" />
+    <squarespace:script src="plugins/mercury.js" combo="true" />
+
+    <squarespace:script src="controllers/AncillaryLayout.js" combo="true" />
+    <squarespace:script src="controllers/BlogList.js" combo="true" />
+    <squarespace:script src="controllers/BlogItemPaginationArrows.js" combo="true" />
+    <squarespace:script src="controllers/MobileOffset.js" combo="true" />
+    <squarespace:script src="controllers/MobileOverlayFolders.js" combo="true" />
+    <squarespace:script src="controllers/MobileOverlayToggle.js" combo="true" />
+    <squarespace:script src="controllers/SimpleImageLoad.js" combo="true" />
+    <squarespace:script src="controllers/SiteLoader.js" combo="true" />
+    <squarespace:script src="controllers/SiteScroll.js" combo="true" />
+
+    {squarespace-footers}
+    
+  </body>
+</html>

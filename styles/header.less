@@ -1,0 +1,588 @@
+
+// =======================================================
+//  _    _       _                                
+// | |  | |     | |                               
+// | |__| | __ _| |__   __ _ _ __   ___ _ __ ___  
+// |  __  |/ _` | '_ \ / _` | '_ \ / _ \ '__/ _ \ 
+// | |  | | (_| | |_) | (_| | | | |  __/ | | (_) |
+// |_|  |_|\__,_|_.__/ \__,_|_| |_|\___|_|  \___/ 
+
+
+//  Template:     Dossier
+//  Module:       Habanero Header Style
+//  Contact:      gzhang@squarespace.com
+//  Updated:      2015-11-28
+
+//  Dependencies: util.less
+
+// =======================================================
+
+
+
+
+// =======================================================
+
+//    Standard
+    
+// =======================================================
+
+
+
+// -----------------------------------------
+
+//  Container
+
+.Header {
+
+  // Padding
+  @{header-element-selector} {
+    padding: (@tweak-header-element-spacing-vertical / 2) (@tweak-header-element-spacing-horizontal / 2);
+  }
+
+}
+
+// -----------------------------------------
+
+//  Branding
+
+.Header-branding {
+
+  .has-site-title & { text-rendering: optimizeLegibility; }
+  .has-logo-image & { line-height: 0; }
+  &-logo { width: 100%; }
+
+}
+
+
+// -----------------------------------------
+
+//  Tagline
+
+.Header-tagline {
+
+  max-width: 40em;
+  @{header-collapse-selector} & { max-width: 25em; }
+
+}
+
+
+// -----------------------------------------
+
+//  Nav
+
+
+.mixin-header-nav (@option, @link-color, @active-link-color, @folder-color, @folder-link-color) {
+  .Header-nav-item { color: @link-color; }
+  .Header-nav-folder { background-color: @folder-color; .font-smoothing(@folder-color); }
+  .Header-nav-folder-item { color: @folder-link-color; }
+}
+.mixin-header-nav (@option, @link-color, @active-link-color, @folder-color, @folder-link-color) when (@option = fade) {
+  .Header-nav-item:hover { .alpha-color(@link-color, 0.4); }
+  .Header-nav-folder-item:hover { .alpha-color(@folder-link-color, 0.4); }
+}
+.mixin-header-nav (@option, @link-color, @active-link-color, @folder-color, @folder-link-color) when (@option = spotlight) {
+  &:hover .Header-nav-item { .alpha-color(@link-color, 0.4); }
+  &:hover .Header-nav-item:hover { color: @link-color; }
+  .Header-nav-folder-item { .alpha-color(@folder-link-color, 0.4); }
+  .Header-nav-folder-item:hover { color: @folder-link-color; }
+}
+.mixin-header-nav (@option, @link-color, @active-link-color, @folder-color, @folder-link-color) when (@option = active) {
+  .Header-nav-item:hover { color: @active-link-color; }
+  .Header-nav-folder-item:hover { color: @active-link-color; }
+  .Header-nav-item--active,
+  .Header-nav-folder-title--active,
+  .Header-nav-folder-item--active {
+    color: @active-link-color;
+  }
+}
+
+.Header-nav {
+
+  white-space: nowrap;
+  line-height: 1em;
+  @{header-collapse-selector} & { white-space: normal; }
+
+  &-inner {
+    margin: (-1 * @header-nav-item-padding);
+  }
+
+  &-item,
+  &-folder-item {
+    .transition(color 170ms ease-in-out);
+  }
+
+  &-item {
+
+    display: inline-block;
+    padding: @header-nav-item-padding;
+    vertical-align: middle;
+
+    &--folder { position: relative; }
+
+  }
+
+  &-folder {
+    .border-box;
+
+    position: absolute;
+    top: 100%;
+    left: -99999px;
+    z-index: 1002;
+    margin-left: -1em;
+    padding: 1em;
+    opacity: 0;
+    white-space: nowrap;
+    text-align: left;
+    .transform(translate3d(0, 10px, 0));
+    .transition3(left 0s 0.2s linear, transform 0s 0.2s linear, opacity 0.2s ease-out);
+
+    &-title { display: inline; }
+
+    &-item {
+
+      display: block;
+      padding: 0.382em;
+
+    }
+
+  }
+
+  &-item--folder:hover &-folder {
+    left: 0;
+    opacity: 1;
+    .transform(translate3d(0, 0, 0));
+    .transition3(left 0s linear, transform 0.2s ease-out, opacity 0.2s ease-out);
+  }
+
+}
+
+
+// -----------------------------------------
+
+//  Search
+
+.mixin-header-search (@option, @text-color, @icon-color, @border-color, @background-color) {
+  .Header-search {
+    color: @text-color;
+    .placeholder-color(@text-color, 0.5);
+
+    // Force stroke alpha to 1 because overlapping
+    // handle and circle strokes will look bad with
+    // semi-transparent colors. Apply alpha as opacity
+    // on parent submit
+    stroke: rgba(red(@icon-color), green(@icon-color), blue(@icon-color), 1);
+  }
+  .Header-search-form-submit:hover { opacity: alpha(@icon-color); }
+}
+.mixin-header-search (@option, @text-color, @icon-color, @border-color, @background-color) when (@option = underlined) {
+  .Header-search-form-input {
+    border-color: rgba(red(@border-color), green(@border-color), blue(@border-color), alpha(@border-color));
+  }
+  // Show large search icon
+  .Header-search .Icon--search { display: block; }
+}
+
+.mixin-header-search (@option, @text-color, @icon-color, @border-color, @background-color) when (@option = rectangle) {
+  .Header-search-form {
+    background-color: @background-color;
+    .font-smoothing(@background-color);
+  }
+  // Show small search icon
+  .Header-search .Icon--search--small { display: block; }
+}
+
+.Header-search {
+
+  white-space: nowrap;
+
+  &-form {
+
+    display: inline-block;
+    vertical-align: middle;
+
+    &-input {
+
+      // Reset
+      letter-spacing: inherit;
+      text-transform: inherit;
+
+      width: 12em;
+      max-width: 100%;
+      outline: 0;
+      border: 0;
+      padding: @header-search-padding 0;
+      background-color: transparent;
+
+      @{header-collapse-selector} & { width: 5em; }
+
+      .tweak-header-search-style-underlined & {
+        border-bottom: 1px solid;
+      }
+
+    }
+
+    &-submit {
+
+      .button-style-reset();
+      vertical-align: middle;
+      line-height: 0;
+      .transition(opacity 200ms ease);
+
+    }
+
+    .tweak-header-search-style-rectangle & {
+      
+      padding-left: @header-search-padding;
+      padding-right: @header-search-padding;
+
+    }
+
+  }
+
+  .Icon { display: none; }
+
+}
+
+
+
+// -----------------------------------------
+
+//  Social
+
+// Wrapper Class for SVG Icons
+@social-icons-wrapper: 'Header-social';
+
+// Set Icon Custom Color Name from TWEAK
+@social-icons-color: @tweak-header-social-color;
+
+// Set Class name from Standard Color Checkbox
+@social-icons-standard-color: 'tweak-header-social-standard-color';
+
+// Set Icon Size Class Name from TWEAK
+@social-icons-size-custom: @tweak-header-social-size;
+
+// Set Icon Style Class Names from TWEAK
+@social-icons-style-regular:            'tweak-header-social-style-regular';
+@social-icons-style-circle--border:     'tweak-header-social-style-circle-border';
+@social-icons-style-circle--knockout:   'tweak-header-social-style-circle-knockout';
+@social-icons-style-circle--solid:      'tweak-header-social-style-circle-solid';
+@social-icons-style-square--border:     'tweak-header-social-style-square-border';
+@social-icons-style-square--knockout:   'tweak-header-social-style-square-knockout';
+@social-icons-style-square--solid:      'tweak-header-social-style-square-solid';
+@social-icons-style-rounded--border:    'tweak-header-social-style-rounded-border';
+@social-icons-style-rounded--knockout:  'tweak-header-social-style-rounded-knockout';
+@social-icons-style-rounded--solid:     'tweak-header-social-style-rounded-solid';
+
+@import 'svg-icon-templates';
+
+.Header-social {
+  line-height: 0;
+}
+
+
+// =======================================================
+
+//    Template-Specific
+    
+// =======================================================
+
+
+@header-element-selector: ~"[data-nc-element]";
+@header-container-selector: ~"[data-nc-container]";
+@header-collapse-selector: ~"[data-nc-collapse]";
+
+@header-element-vertical-spacing: 10px;
+
+.Header {
+
+  .border-box;
+
+  // Vertical padding
+  padding-top: @tweak-header-padding-top;
+  padding-bottom: @tweak-header-padding-bottom;
+
+  // Horizontal padding
+  padding-left: (@tweak-site-side-padding - (@tweak-header-element-spacing-horizontal / 2));
+  padding-right: (@tweak-site-side-padding - (@tweak-header-element-spacing-horizontal / 2));
+  .responsive-padding-horizontal(@tweak-site-side-padding, (@tweak-header-element-spacing-horizontal / -2));
+
+  // Background
+  background-color: @tweak-header-background-color;
+  .font-smoothing(@tweak-header-background-color);
+
+  // Loading
+  opacity: 0;
+  &.loaded { opacity: 1; }
+  .transition(opacity 160ms ease-out);
+
+}
+
+
+// -----------------------------------------
+
+//  Branding
+
+.has-site-title .Header-branding {
+  .tweak-header-branding-site-title-font;
+  color: @tweak-header-branding-site-title-color;
+}
+.Header-branding-logo { max-width: @tweak-header-branding-logo-width; }
+
+
+// -----------------------------------------
+
+//  Tagline
+
+.Header-tagline {
+  .tweak-header-tagline-font;
+  color: @tweak-header-tagline-color;
+}
+
+// -----------------------------------------
+
+//  Nav
+
+@header-nav-item-padding: 0.618em;
+
+.Header-nav { .tweak-header-primary-nav-font; }
+.tweak-header-primary-nav-hover-style-plain {
+  .Header-nav { .mixin-header-nav(plain, @tweak-header-primary-nav-link-color, @tweak-header-primary-nav-link-active-color, @tweak-header-primary-nav-folder-color, @tweak-header-primary-nav-folder-link-color); }
+}
+
+.tweak-header-primary-nav-hover-style-fade {
+  .Header-nav { .mixin-header-nav(fade, @tweak-header-primary-nav-link-color, @tweak-header-primary-nav-link-active-color, @tweak-header-primary-nav-folder-color, @tweak-header-primary-nav-folder-link-color); }
+}
+.tweak-header-primary-nav-hover-style-spotlight {
+  .Header-nav { .mixin-header-nav(spotlight, @tweak-header-primary-nav-link-color, @tweak-header-primary-nav-link-active-color, @tweak-header-primary-nav-folder-color, @tweak-header-primary-nav-folder-link-color); }
+}
+.tweak-header-primary-nav-hover-style-active {
+  .Header-nav { .mixin-header-nav(active, @tweak-header-primary-nav-link-color, @tweak-header-primary-nav-link-active-color, @tweak-header-primary-nav-folder-color, @tweak-header-primary-nav-folder-link-color); }
+}
+
+body:not(.tweak-header-secondary-nav-inherit-styles) .Header-nav--secondary { .tweak-header-secondary-nav-font; }
+.tweak-header-secondary-nav-hover-style-plain:not(.tweak-header-secondary-nav-inherit-styles) {
+  .Header-nav--secondary { .mixin-header-nav(plain, @tweak-header-secondary-nav-link-color, @tweak-header-secondary-nav-link-active-color, @tweak-header-secondary-nav-folder-color, @tweak-header-secondary-nav-folder-link-color); }
+}
+
+.tweak-header-secondary-nav-hover-style-fade:not(.tweak-header-secondary-nav-inherit-styles) {
+  .Header-nav--secondary { .mixin-header-nav(fade, @tweak-header-secondary-nav-link-color, @tweak-header-secondary-nav-link-active-color, @tweak-header-secondary-nav-folder-color, @tweak-header-secondary-nav-folder-link-color); }
+}
+.tweak-header-secondary-nav-hover-style-spotlight:not(.tweak-header-secondary-nav-inherit-styles) {
+  .Header-nav--secondary { .mixin-header-nav(spotlight, @tweak-header-secondary-nav-link-color, @tweak-header-secondary-nav-link-active-color, @tweak-header-secondary-nav-folder-color, @tweak-header-secondary-nav-folder-link-color); }
+}
+.tweak-header-secondary-nav-hover-style-active:not(.tweak-header-secondary-nav-inherit-styles) {
+  .Header-nav--secondary { .mixin-header-nav(active, @tweak-header-secondary-nav-link-color, @tweak-header-secondary-nav-link-active-color, @tweak-header-secondary-nav-folder-color, @tweak-header-secondary-nav-folder-link-color); }
+}
+
+
+// -----------------------------------------
+
+//  Search
+
+@header-search-padding: 0.5em;
+
+.Header-search { .tweak-header-search-font; }
+.tweak-header-search-style-underlined {
+  .mixin-header-search(underlined, @tweak-header-search-text-color, @tweak-header-search-icon-color, @tweak-header-search-border-color, @tweak-header-search-background-color);
+}
+.tweak-header-search-style-rectangle {
+  .mixin-header-search(rectangle, @tweak-header-search-text-color, @tweak-header-search-icon-color, @tweak-header-search-border-color, @tweak-header-search-background-color);
+}
+
+
+// -----------------------------------------
+
+//  Social
+
+.mixin-header-social(@color) {
+
+  .social-icons-solid-color (@c) when (lightness(@c) >= 60%) {
+    fill: #222;
+  }
+
+  .social-icons-solid-color (@c) when (lightness(@c) < 60%) {
+    fill: #fff;
+  }
+
+  .social-icons-solid-hover-color (@c) when (lightness(@c) >= 60%) {
+    fill: fade(#222, 40%);
+  }
+
+  .social-icons-solid-hover-color (@c) when (lightness(@c) < 60%) {
+    fill: fade(#fff, 40%);
+  }
+
+  .social-icons-solid-hover-hide (@c) when (lightness(@c) >= 60%) {
+    fill: fade(#222, 0%);
+  }
+
+  .social-icons-solid-hover-hide (@c) when (lightness(@c) < 60%) {
+    fill: fade(#fff, 0%);
+  }
+
+  &.tweak-header-social-style-regular {
+    .Header-social .sqs-use--icon {
+      fill: @color;
+    }
+
+    .Header-social .sqs-use--background,
+    .Header-social .sqs-use--mask {
+      fill: transparent;
+    }
+  }
+
+  &.tweak-header-social-style-circle-border,
+  &.tweak-header-social-style-square-border,
+  &.tweak-header-social-style-rounded-border {
+    .Header-social .sqs-svg-icon--wrapper {
+      border-color: @color;
+    }
+
+    .Header-social .sqs-use--icon {
+      fill: @color;
+    }
+
+    .Header-social .sqs-use--background,
+    .Header-social .sqs-use--mask {
+      fill: transparent;
+    }
+  }
+
+  &.tweak-header-social-style-circle-knockout,
+  &.tweak-header-social-style-square-knockout,
+  &.tweak-header-social-style-rounded-knockout {
+    .Header-social .sqs-use--mask {
+      fill: @color;
+    }
+
+    .Header-social .sqs-use--background,
+    .Header-social .sqs-use--icon {
+      fill: transparent;
+    }
+  }
+
+  &.tweak-header-social-style-circle-solid,
+  &.tweak-header-social-style-square-solid,
+  &.tweak-header-social-style-rounded-solid {
+    .Header-social .sqs-use--icon {
+      .social-icons-solid-color(@color);
+    }
+
+    .Header-social .sqs-use--background {
+      .social-icons-solid-color(@color);
+    }
+
+    .Header-social .sqs-use--mask {
+      fill: @color;
+    }
+
+  }
+
+}
+
+
+
+
+// ===============================================================
+
+//  Overlay
+
+
+.mixin-header-overlay-styles {
+
+  .Header {
+
+    // Positioning + size + zindex
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 3;
+
+    // Overlay header with transparent bg
+    background-color: transparent;
+
+    // These z-indexes are necessary to
+    // force target overlay divs to be 
+    // on top of content target overlays
+    // in tweak.
+    [data-authenticated-account] & {
+      z-index: 10;
+      [data-nc-element] { position: relative; z-index: 5; }
+    }
+
+  }
+
+  // Special case - we can't set position: relative
+  // on body due to conflicts with overlays in the
+  // editor; instead, to make sure the absolute
+  // positioned overlay header doesnt go outside the
+  // border, we set left and right to border width 
+  // when border is on.
+  &.tweak-site-border-show .Header {
+    left: @tweak-site-border-width;
+    right: @tweak-site-border-width;
+  }
+
+}
+
+.mixin-header-overlay-colors {
+
+  &.has-site-title .Header-branding { color: @tweak-header-overlay-branding-site-title-color; }
+  .Header-tagline { color: @tweak-header-overlay-tagline-color; }
+
+  &.tweak-header-primary-nav-hover-style-plain {
+    .Header-nav { .mixin-header-nav(plain, @tweak-header-overlay-primary-nav-link-color, @tweak-header-overlay-primary-nav-link-active-color, @tweak-header-overlay-primary-nav-folder-color, @tweak-header-overlay-primary-nav-folder-link-color); }
+  }
+  &.tweak-header-primary-nav-hover-style-fade {
+    .Header-nav { .mixin-header-nav(fade, @tweak-header-overlay-primary-nav-link-color, @tweak-header-overlay-primary-nav-link-active-color, @tweak-header-overlay-primary-nav-folder-color, @tweak-header-overlay-primary-nav-folder-link-color); }
+  }
+  &.tweak-header-primary-nav-hover-style-spotlight {
+    .Header-nav { .mixin-header-nav(spotlight, @tweak-header-overlay-primary-nav-link-color, @tweak-header-overlay-primary-nav-link-active-color, @tweak-header-overlay-primary-nav-folder-color, @tweak-header-overlay-primary-nav-folder-link-color); }
+  }
+  &.tweak-header-primary-nav-hover-style-active {
+    .Header-nav { .mixin-header-nav(active, @tweak-header-overlay-primary-nav-link-color, @tweak-header-overlay-primary-nav-link-active-color, @tweak-header-overlay-primary-nav-folder-color, @tweak-header-overlay-primary-nav-folder-link-color); }
+  }
+  &.tweak-header-secondary-nav-hover-style-plain:not(.tweak-header-secondary-nav-inherit-styles) {
+    .Header-nav--secondary { .mixin-header-nav(plain, @tweak-header-overlay-secondary-nav-link-color, @tweak-header-overlay-secondary-nav-link-active-color, @tweak-header-overlay-secondary-nav-folder-color, @tweak-header-overlay-secondary-nav-folder-link-color); }
+  }
+  &.tweak-header-secondary-nav-hover-style-fade:not(.tweak-header-secondary-nav-inherit-styles) {
+    .Header-nav--secondary { .mixin-header-nav(fade, @tweak-header-overlay-secondary-nav-link-color, @tweak-header-overlay-secondary-nav-link-active-color, @tweak-header-overlay-secondary-nav-folder-color, @tweak-header-overlay-secondary-nav-folder-link-color); }
+  }
+  &.tweak-header-secondary-nav-hover-style-spotlight:not(.tweak-header-secondary-nav-inherit-styles) {
+    .Header-nav--secondary { .mixin-header-nav(spotlight, @tweak-header-overlay-secondary-nav-link-color, @tweak-header-overlay-secondary-nav-link-active-color, @tweak-header-overlay-secondary-nav-folder-color, @tweak-header-overlay-secondary-nav-folder-link-color); }
+  }
+  &.tweak-header-secondary-nav-hover-style-active:not(.tweak-header-secondary-nav-inherit-styles) {
+    .Header-nav--secondary { .mixin-header-nav(active, @tweak-header-overlay-secondary-nav-link-color, @tweak-header-overlay-secondary-nav-link-active-color, @tweak-header-overlay-secondary-nav-folder-color, @tweak-header-overlay-secondary-nav-folder-link-color); }
+  }
+  &.tweak-header-search-style-underlined {
+    .mixin-header-search(underlined, @tweak-header-overlay-search-text-color, @tweak-header-overlay-search-icon-color, @tweak-header-overlay-search-border-color, @tweak-header-overlay-search-background-color);
+  }
+  &.tweak-header-search-style-rectangle {
+    .mixin-header-search(rectangle, @tweak-header-overlay-search-text-color, @tweak-header-overlay-search-icon-color, @tweak-header-overlay-search-border-color, @tweak-header-overlay-search-background-color);
+  }
+  
+  .mixin-header-social(@tweak-header-overlay-social-color);
+
+}
+
+.collection-type-blog {
+
+  &.view-list.tweak-blog-list-full-bleed:not(.tweak-blog-list-filter-show),
+  &.view-list.tweak-blog-list-full-bleed.tweak-blog-list-filter-show:not(.has-active-filter) {
+
+    .mixin-header-overlay-styles();
+    .mixin-header-overlay-colors();
+    .Header { .font-smoothing(@blog-header-overlay-color-alpha-full); }
+
+  }
+
+  &.view-item.tweak-blog-item-header-full-bleed {
+
+    .mixin-header-overlay-styles();
+    .mixin-header-overlay-colors();
+    .Header { .font-smoothing(@blog-header-overlay-color-alpha-full); }
+
+  }
+
+}
+
