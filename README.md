@@ -1,6 +1,7 @@
 # Squarespace Dossier
 > Squarespace's Dossier template, the template that powers Farro and Haute.
-> *Note:* This is not an official Squarespace template repository.
+
+> **Note:** This is not an official Squarespace template repository.
 
 ## Overview
 Dossier is a feature-packed template with large grid-style layouts, parallaxing photos and much more. This repository is not an official distribution of the template. At Squarefront we're simply tracking changes ourselves to keep up to date on template updates.
